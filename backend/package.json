@@ -1,0 +1,21 @@
+{
+  "name": "expense-tracker-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend microservices for Expense Tracker",
+  "scripts": {
+    "install:all": "cd auth-service && npm install && cd ../budget-service && npm install",
+    "dev:auth": "cd auth-service && npm run dev",
+    "dev:budget": "cd budget-service && npm run dev",
+    "dev:transaction": "cd transaction-service && python app.py",
+    "dev:analytics": "cd analytics-service && python app.py",
+    "go": "concurrently \"npm run dev:auth\" \"npm run dev:budget\" \"npm run dev:transaction\" \"npm run dev:analytics\"",
+    "pip:all": "cd transaction-service && python -m pip install -r requirements.txt && cd ../analytics-service && python -m pip install -r requirements.txt"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "dependencies": {
+    "pg": "^8.18.0"
+  }
+}

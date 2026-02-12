@@ -1,0 +1,71 @@
+Build a personal Expense Tracker app using microservices architecture.
+
+REQUIREMENTS:
+- Authentication: Email/password signup + Google OAuth login
+- Session-based protection with JWT
+- Multi-currency support (HUF, CAD, etc.)
+- Monthly budget planning with customizable categories
+
+MICROSERVICES:
+
+1. Auth Service (Node.js/Express + Postgres)
+   - User registration and login
+   - Google OAuth integration
+   - JWT token generation and validation
+   - Session management
+
+2. Budget Service (Node.js/Express + Postgres)
+   - Create monthly budgets with categories
+   - Set spending limits per category
+   - Track opening/closing balance month-to-month
+   - Support multiple currencies
+
+3. Transaction Service (Python/Flask + MongoDB)
+   - Add income (salary, extra income)
+   - Add expenses by category with date, amount, currency, notes
+   - Edit/delete transactions
+   - Filter by date range and category
+
+4. Analytics Service (Python/Flask + Redis cache)
+   - Calculate total expenses per month
+   - Compute closing balance (opening + income - expenses)
+   - Separate "real available" vs "saves"
+   - Monthly comparison and trends
+   - Budget vs actual spending
+
+5. API Gateway (Nginx/Kong)
+   - Single entry point for frontend
+   - Route requests to appropriate services
+   - Auth middleware
+
+FRONTEND (React):
+- Dashboard with month selector
+- Summary cards: opening balance, salary, extra income, total expenses, closing balance, saves
+- Editable category table with planned vs actual values
+- Add transaction modal
+- Monthly trend visualization
+- Responsive design
+
+KEY FEATURES:
+- Recurring category auto-fill (e.g., rent always 127 HUF)
+- Currency conversion tracking
+- Real available money calculation (closing balance - designated saves)
+- Monthly carryover of closing → opening balance
+
+TECH STACK:
+- Auth Service: Node.js, Express, Postgres, Passport.js
+- Budget Service: Node.js, Express, Postgres
+- Transaction Service: Python, Flask, MongoDB
+- Analytics Service: Python, Flask, Redis
+- API Gateway: Nginx or Kong
+- Frontend: React, Axios
+- Message Queue: RabbitMQ for async communication between services
+
+OUTPUT:
+- Complete project structure with folders per service
+- API documentation for each service
+- Database schemas
+- Environment variable templates
+- README with setup instructions
+
+Keep business logic simple—focus on clean microservices separation.
