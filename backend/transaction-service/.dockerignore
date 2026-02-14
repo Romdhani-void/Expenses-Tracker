@@ -1,0 +1,49 @@
+# Python cache
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Documentation
+README.md
+docs/
+
+# Tests
+.pytest_cache
+.coverage
+htmlcov
+*.test.py
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info
+
+# OS
+.DS_Store
+Thumbs.db

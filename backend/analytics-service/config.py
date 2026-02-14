@@ -15,7 +15,7 @@ class Config:
     CACHE_TTL = int(os.getenv('CACHE_TTL', 300))  # 5 minutes default
     
     # JWT
-    JWT_SECRET = os.getenv('JWT_SECRET', 'your-secret-key-change-this')
+    JWT_SECRET = os.getenv('JWT_SECRET', 'ExpTrk_Jwt_S3cr3t_2024_64ch_H5h_D3v_M1n1mum!!')
     
     # CORS
     FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')

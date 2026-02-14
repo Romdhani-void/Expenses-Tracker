@@ -1,0 +1,52 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Build output (created during Docker build)
+dist
+build
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.example
+.env.production
+.env.development
+.env.test
+.env.production.local
+.env.development.local
+.env.test.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Documentation
+README.md
+
+# Tests
+coverage
+*.test.js
+*.test.jsx
+*.spec.js
+*.spec.jsx
+
+# Vite cache
+.vite
+
+# OS
+.DS_Store
+Thumbs.db

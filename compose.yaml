@@ -1,0 +1,195 @@
+# To be listed : backend, frontend, postgres, adminer, mongo, redis
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: expense-postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: expense_tracker_auth
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql:ro
+    networks:
+      - expense-network
+      
+  adminer:
+    image: adminer
+    container_name: expense-adminer
+    ports:
+      - 8082:8080
+    depends_on:
+      - postgres
+    networks:
+      - expense-network
+  mongo:
+    image: mongo
+    restart: always
+    container_name: expense-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - expense-network
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongo
+    restart: always
+    container_name: expense-mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH_ENABLED: true
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
+    networks:
+      - expense-network
+
+  redis:
+    image: redis:7
+    container_name: expense-redis
+    ports:
+      - 6379:6379
+    environment:
+      REDIS_PASSWORD: password
+    volumes:
+      - redis_data:/data
+    networks:
+      - expense-network
+
+
+#backend services
+  analytics-service:
+    build:
+      context: ./backend/analytics-service
+    container_name: expense-analytics-service
+    ports:
+      - 3004:3004
+    environment:
+      # Redis (for caching)
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      CACHE_TTL: 300
+      # JWT (to validate tokens)
+      JWT_SECRET: ExpTrk_Jwt_S3cr3t_2024_64ch_H5h_D3v_M1n1mum!!
+      # CORS (browser perspective)
+      FRONTEND_URL: http://localhost:3000
+      # Microservices URLs (Docker network names)
+      TRANSACTION_SERVICE_URL: http://transaction-service:3003
+      BUDGET_SERVICE_URL: http://budget-service:3002
+    depends_on:
+      - redis
+      - transaction-service
+      - budget-service
+    networks:
+      - expense-network
+
+  transaction-service:
+    build:
+      context: ./backend/transaction-service
+    container_name: expense-transaction-service
+    ports:
+      - 3003:3003
+    environment:
+      # MongoDB
+      MONGO_URI: mongodb://root:example@mongo:27017/?authSource=admin
+      MONGO_DB_NAME: expense_tracker_transactions
+      # JWT (to validate tokens)
+      JWT_SECRET: ExpTrk_Jwt_S3cr3t_2024_64ch_H5h_D3v_M1n1mum!!
+      # CORS (browser perspective)
+      FRONTEND_URL: http://localhost:3000
+    depends_on:
+      - mongo
+    networks:
+      - expense-network
+
+  budget-service:
+    build:
+      context: ./backend/budget-service
+    container_name: expense-budget-service
+    ports:
+      - 3002:3002
+    environment:
+      # PostgreSQL
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: expense_tracker_budget
+      DB_USER: postgres
+      DB_PASSWORD: root
+      # JWT (to validate tokens)
+      JWT_SECRET: ExpTrk_Jwt_S3cr3t_2024_64ch_H5h_D3v_M1n1mum!!
+      # CORS (browser perspective)
+      FRONTEND_URL: http://localhost:3000
+    depends_on:
+      - postgres
+    networks:
+      - expense-network
+
+
+  auth-service:
+    build:
+      context: ./backend/auth-service
+    container_name: expense-auth-service
+    ports:
+      - 3001:3001
+    environment:
+      # PostgreSQL
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: expense_tracker_auth
+      DB_USER: postgres
+      DB_PASSWORD: root
+      # JWT (to validate tokens)
+      JWT_SECRET: ExpTrk_Jwt_S3cr3t_2024_64ch_H5h_D3v_M1n1mum!!
+      # CORS (browser perspective)
+      FRONTEND_URL: http://localhost:3000
+    depends_on:
+      - postgres
+    networks:
+      - expense-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: expense-frontend
+    ports:
+      - 3000:80
+    networks:
+      - expense-network
+    depends_on:
+      - api-gateway
+
+  api-gateway:
+    image: nginx:alpine
+    container_name: expense-api-gateway
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend/api-gateway/nginx.docker.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - auth-service
+      - transaction-service
+      - budget-service
+      - analytics-service
+    networks:
+      - expense-network
+
+volumes:
+  postgres_data:
+  mongo_data:
+  redis_data:
+
+networks:
+  expense-network:

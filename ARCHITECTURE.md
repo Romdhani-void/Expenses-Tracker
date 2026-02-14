@@ -19,11 +19,11 @@ The Expense Tracker application is built using a microservices architecture with
 │                     (http://localhost:8080)                      │
 │                                                                 │
 │  Routes:                                                        │
-│  /api/auth/*        → Auth Service                            │
-│  /api/budgets/*     → Budget Service                          │
-│  /api/categories/*  → Budget Service                          │
+│  /api/auth/*         → Auth Service                            │
+│  /api/budgets/*      → Budget Service                          │
+│  /api/categories/*   → Budget Service                          │
 │  /api/transactions/* → Transaction Service                    │
-│  /api/analytics/*   → Analytics Service                       │
+│  /api/analytics/*    → Analytics Service                       │
 └─────────────────────────────────────────────────────────────────┘
             │              │              │              │
             ▼              ▼              ▼              ▼
