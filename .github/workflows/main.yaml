@@ -69,8 +69,8 @@ jobs:
           context: ./frontend
           push: true
           tags: |
-            expense-tracker-frontend:${{ github.run_number }}
-            expense-tracker-frontend:latest
+            romdhani01/expense-tracker-frontend:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-frontend:latest
 
       - name: push analytic-service image
         uses: docker/build-push-action@v5
@@ -78,8 +78,8 @@ jobs:
           context: ./backend/analytics-service
           push: true
           tags: |
-            expense-tracker-analytics-service:${{ github.run_number }}
-            expense-tracker-analytics-service:latest
+            romdhani01/expense-tracker-analytics-service:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-analytics-service:latest
 
       - name: push transaction-service image
         uses: docker/build-push-action@v5
@@ -87,8 +87,8 @@ jobs:
           context: ./backend/transaction-service
           push: true
           tags: |
-            expense-tracker-transaction-service:${{ github.run_number }}
-            expense-tracker-transaction-service:latest
+            romdhani01/expense-tracker-transaction-service:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-transaction-service:latest
 
       - name: push budget-service image
         uses: docker/build-push-action@v5
@@ -96,8 +96,8 @@ jobs:
           context: ./backend/budget-service
           push: true
           tags: |
-            expense-tracker-budget-service:${{ github.run_number }}
-            expense-tracker-budget-service:latest
+            romdhani01/expense-tracker-budget-service:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-budget-service:latest
 
       - name: push auth-service image
         uses: docker/build-push-action@v5
@@ -105,8 +105,8 @@ jobs:
           context: ./backend/auth-service
           push: true
           tags: |
-            expense-tracker-auth-service:${{ github.run_number }}
-            expense-tracker-auth-service:latest
+            romdhani01/expense-tracker-auth-service:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-auth-service:latest
 
       - name: push api-gateway image
         uses: docker/build-push-action@v5
@@ -114,5 +114,5 @@ jobs:
           context: ./backend/api-gateway
           push: true
           tags: |
-            expense-tracker-api-gateway:${{ github.run_number }}
-            expense-tracker-api-gateway:latest
+            romdhani01/expense-tracker-api-gateway:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-api-gateway:latest
