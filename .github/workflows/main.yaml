@@ -2,9 +2,9 @@ name: CI/CD pipeline for expense tracker
 
 on:
   push:
-    branches: [ "main" ] # Runs every time you push to the 'main' branch
+    branches: [ "dev" ] # Runs every time you push to the 'main' branch
   pull_request:
-    branches: [ "main" ] # Runs every time you open a pull request to the 'main' branch
+    branches: [ "dev" ] # Runs every time you open a pull request to the 'main' branch
 
 jobs:
   # --- JOB 1: BACKEND VALIDATION ---
