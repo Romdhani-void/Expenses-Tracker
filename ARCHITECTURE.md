@@ -22,7 +22,7 @@ The Expense Tracker application is built using a microservices architecture with
 │  /api/auth/*         → Auth Service                            │
 │  /api/budgets/*      → Budget Service                          │
 │  /api/categories/*   → Budget Service                          │
-│  /api/transactions/* → Transaction Service                     │
+│  /api/transactions/* → Transaction Services                     │
 │  /api/analytics/*    → Analytics Service                       │
 └────────────────────────────────────────────────────────────────┘
             │              │              │              │
