@@ -4,7 +4,7 @@
 
 The Expense Tracker application is built using a microservices architecture with clear separation of concerns. Each service is independently deployable and scalable, communicating via RESTful APIs through a central API Gateway.
 
-## System Architecture
+## System Architecture ++
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
