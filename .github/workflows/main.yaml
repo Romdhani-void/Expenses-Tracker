@@ -1,0 +1,50 @@
+name: CI/CD pipeline for expense tracker
+
+on:
+  push:
+    branches: [ "main" ] # Runs every time you push to the 'main' branch
+  pull_request:
+    branches: [ "main" ] # Runs every time you open a pull request to the 'main' branch
+
+jobs:
+  # --- JOB 1: BACKEND VALIDATION ---
+  backend-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install & Build Backend
+        run: |
+          cd backend
+          npm install
+          npm run install:all
+          npm run pip:all
+
+  # --- JOB 2: FRONTEND VALIDATION ---
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Angular App
+        run: |
+          cd frontend
+          npm install
+          npm run build
