@@ -9,22 +9,22 @@ The Expense Tracker application is built using a microservices architecture with
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         React Frontend                          │
-│                      (http://localhost:3000)                     │
+│                      (http://localhost:3000)                    │
 └───────────────────────────┬─────────────────────────────────────┘
                             │
                             │ HTTP Requests
                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                       API Gateway (Nginx)                       │
-│                     (http://localhost:8080)                      │
-│                                                                 │
-│  Routes:                                                        │
+┌────────────────────────────────────────────────────────────────┐
+│                       API Gateway (Nginx)                      │
+│                     (http://localhost:8080)                    │
+│                                                                │
+│  Routes:                                                       │
 │  /api/auth/*         → Auth Service                            │
 │  /api/budgets/*      → Budget Service                          │
 │  /api/categories/*   → Budget Service                          │
-│  /api/transactions/* → Transaction Service                    │
+│  /api/transactions/* → Transaction Service                     │
 │  /api/analytics/*    → Analytics Service                       │
-└─────────────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────────────┘
             │              │              │              │
             ▼              ▼              ▼              ▼
 ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
@@ -40,6 +40,8 @@ The Expense Tracker application is built using a microservices architecture with
 │  (Auth DB)   │ │ (Budget DB)  │ │(Transactions)│ │   (Cache)    │
 └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘
 ```
+
+![alt text](image.png)
 
 **Ports:**
 

@@ -16,7 +16,6 @@ services:
       - ./backend/init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql:ro
     networks:
       - expense-network
-      
   adminer:
     image: adminer
     container_name: expense-adminer
@@ -54,7 +53,6 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: admin
     networks:
       - expense-network
-
   redis:
     image: redis:7
     container_name: expense-redis
@@ -94,7 +92,6 @@ services:
       - budget-service
     networks:
       - expense-network
-
   transaction-service:
     build:
       context: ./backend/transaction-service
@@ -113,7 +110,6 @@ services:
       - mongo
     networks:
       - expense-network
-
   budget-service:
     build:
       context: ./backend/budget-service
@@ -135,8 +131,6 @@ services:
       - postgres
     networks:
       - expense-network
-
-
   auth-service:
     build:
       context: ./backend/auth-service
@@ -158,19 +152,7 @@ services:
       - postgres
     networks:
       - expense-network
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: expense-frontend
-    ports:
-      - 3000:80
-    networks:
-      - expense-network
-    depends_on:
-      - api-gateway
-
+# API Gateway
   api-gateway:
     image: nginx:alpine
     container_name: expense-api-gateway
@@ -185,11 +167,25 @@ services:
       - analytics-service
     networks:
       - expense-network
+# Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: expense-frontend
+    ports:
+      - 3000:80
+    networks:
+      - expense-network
+    depends_on:
+      - api-gateway
 
+# Volumes
 volumes:
   postgres_data:
   mongo_data:
   redis_data:
 
+# Networks
 networks:
   expense-network:
