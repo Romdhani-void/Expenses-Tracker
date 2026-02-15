@@ -16,6 +16,7 @@ services:
       - ./backend/init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql:ro
     networks:
       - expense-network
+      
   adminer:
     image: adminer
     container_name: expense-adminer
@@ -53,6 +54,7 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: admin
     networks:
       - expense-network
+
   redis:
     image: redis:7
     container_name: expense-redis

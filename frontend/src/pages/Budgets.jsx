@@ -36,7 +36,7 @@ const Budgets = () => {
 
   return (
     <div>
-      <h2>Monthly Budgets</h2>
+      <h2>Monthly Budget</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       
       <div className="card" style={{ marginBottom: '20px' }}>
