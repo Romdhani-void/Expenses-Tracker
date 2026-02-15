@@ -70,8 +70,7 @@ services:
 
 #backend services
   analytics-service:
-    build:
-      context: ./backend/analytics-service
+    image: expense-tracker-analytics-service:latest
     container_name: expense-analytics-service
     ports:
       - 3004:3004
@@ -95,8 +94,7 @@ services:
     networks:
       - expense-network
   transaction-service:
-    build:
-      context: ./backend/transaction-service
+    image: expense-tracker-transaction-service:latest
     container_name: expense-transaction-service
     ports:
       - 3003:3003
@@ -113,8 +111,7 @@ services:
     networks:
       - expense-network
   budget-service:
-    build:
-      context: ./backend/budget-service
+    image: expense-tracker-budget-service:latest
     container_name: expense-budget-service
     ports:
       - 3002:3002
@@ -134,8 +131,7 @@ services:
     networks:
       - expense-network
   auth-service:
-    build:
-      context: ./backend/auth-service
+    image: expense-tracker-auth-service:latest
     container_name: expense-auth-service
     ports:
       - 3001:3001
@@ -156,7 +152,7 @@ services:
       - expense-network
 # API Gateway
   api-gateway:
-    image: nginx:alpine
+    image: expense-tracker-api-gateway:latest
     container_name: expense-api-gateway
     ports:
       - 8080:8080
@@ -171,9 +167,7 @@ services:
       - expense-network
 # Frontend
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: expense-tracker-frontend:latest
     container_name: expense-frontend
     ports:
       - 3000:80
