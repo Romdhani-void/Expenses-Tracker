@@ -6,7 +6,7 @@ const Dashboard = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Szia, {user?.name || 'User'}!</h1>
+      <h1>Jo napot, {user?.name || 'User'}!</h1>
       <p>This is your Expense Tracker Dashboard.</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginTop: '20px' }}>
         <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
@@ -26,4 +26,5 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard;  
+
