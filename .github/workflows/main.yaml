@@ -1,0 +1,118 @@
+name: CI/CD pipeline for expense tracker
+
+on:
+  push:
+    branches: ["dev"] # Runs every time you push to the 'main' branch
+  pull_request:
+    branches: ["dev"] # Runs every time you open a pull request to the 'main' branch
+
+jobs:
+  # --- JOB 1: BACKEND VALIDATION ---
+  backend-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install & Build Backend
+        run: |
+          cd backend
+          npm install
+          npm run install:all
+          npm run pip:all
+
+  # --- JOB 2: FRONTEND VALIDATION ---
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build Angular App
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+  # --- JOB 3: DOCKER IMAGE ---
+  docker-image:
+    needs: [backend-testing, frontend-build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: login to docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: push frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            romdhani01/expense-tracker-frontend:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-frontend:latest
+
+      - name: push analytic-service image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/analytics-service
+          push: true
+          tags: |
+            romdhani01/expense-tracker-analytics-service:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-analytics-service:latest
+
+      - name: push transaction-service image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/transaction-service
+          push: true
+          tags: |
+            romdhani01/expense-tracker-transaction-service:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-transaction-service:latest
+
+      - name: push budget-service image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/budget-service
+          push: true
+          tags: |
+            romdhani01/expense-tracker-budget-service:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-budget-service:latest
+
+      - name: push auth-service image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/auth-service
+          push: true
+          tags: |
+            romdhani01/expense-tracker-auth-service:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-auth-service:latest
+
+      - name: push api-gateway image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/api-gateway
+          push: true
+          tags: |
+            romdhani01/expense-tracker-api-gateway:1.0.${{ github.run_number }}
+            romdhani01/expense-tracker-api-gateway:latest
