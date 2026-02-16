@@ -8,7 +8,7 @@ on:
 
 jobs:
   # --- JOB 1: BACKEND VALIDATION ---
-  backend-testing:
+  backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -17,12 +17,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Set up python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.12"
+          python-version: "3.14"
 
       - name: Install & Build Backend
         run: |
@@ -32,7 +32,7 @@ jobs:
           npm run pip:all
 
   # --- JOB 2: FRONTEND VALIDATION ---
-  frontend-build:
+  frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -41,9 +41,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
-      - name: Build Angular App
+      - name: Build React App
         run: |
           cd frontend
           npm install
@@ -51,7 +51,7 @@ jobs:
 
   # --- JOB 3: DOCKER IMAGE ---
   docker-image:
-    needs: [backend-testing, frontend-build]
+    needs: [backend, frontend]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -116,3 +116,16 @@ jobs:
           tags: |
             romdhani01/expense-tracker-api-gateway:1.0.${{ github.run_number }}
             romdhani01/expense-tracker-api-gateway:latest
+
+  deploy-local:
+    needs: [docker-image]
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Stop and Remove Existing Containers/Images
+        run: docker-compose down --rmi all
+      - name: pull latest images
+        run: docker-compose pull
+      - name: Deploy with Docker Compose
+        run: docker-compose up -d

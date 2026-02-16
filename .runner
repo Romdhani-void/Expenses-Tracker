@@ -1,0 +1,11 @@
+﻿{
+  "agentId": 21,
+  "agentName": "self-hosted",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus9.actions.githubusercontent.com/XLUwZRjbELFvxIIgDqQTveaWD2X5AVBJCpufDv0FC4RGCzRuzw/",
+  "gitHubUrl": "https://github.com/Romdhani-void/Expenses-Tracker",
+  "workFolder": "_work",
+  "useV2Flow": true,
+  "serverUrlV2": "https://broker.actions.githubusercontent.com/"
+}
